@@ -9,7 +9,8 @@
     "dev": "vite",
     "build:renderer": "tsc && vite build",
     "build:electron": "tsc -p tsconfig.electron.json",
-    "build": "npm run build:renderer && npm run build:electron",
+    "build:web": "npm run build:renderer && node scripts/prepare-dist.js",
+    "build": "node scripts/build.js",
     "test": "vitest run",
     "pack": "npm run build && electron-builder --dir",
     "dist": "npm run build && electron-builder"
