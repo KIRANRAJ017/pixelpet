@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pixel Pet — A Tiny Pixel Companion for Your Desktop</title>
+  <meta name="description" content="A cute, quiet pixel-art desktop pet that lives on your Windows 10/11 desktop. Meet Mochi, Neko, and Boo." />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Press+Start+2P&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="./style.css" />
+  <link rel="icon" type="image/png" href="./assets/tray-icon.png" />
+</head>
+<body>
+  <!-- Ambient floating pixel sparkles -->
+  <div class="ambient-stars" aria-hidden="true">
+    <div class="star star-1">✦</div>
+    <div class="star star-2">★</div>
+    <div class="star star-3">✦</div>
+    <div class="star star-4">★</div>
+    <div class="star star-5">✦</div>
+    <div class="star star-6">★</div>
+  </div>
+
+  <!-- SECTION A: Tiny Playful Navigation -->
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="#" class="brand" aria-label="Pixel Pet Home">
+        <span class="brand-avatar" aria-hidden="true">
+          <img src="./assets/pets/mochi/mint/idle.png" alt="" class="nav-pet-sprite" />
+        </span>
+        <div class="brand-text">
+          <span class="brand-title">pixel pet</span>
+          <span class="brand-status"><span class="pulse-dot"></span> a tiny desktop friend</span>
+        </div>
+      </a>
+
+      <nav class="nav-links">
+        <a href="#adopt" class="nav-item">Meet the pets</a>
+        <a href="#features" class="nav-item">How it works</a>
+        <a href="#open-source" class="nav-item">Source code</a>
+        <a href="#download" class="btn-gold nav-cta">Get the pet ↓</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- SECTION B: The Main Playground Hero -->
+    <section class="hero-section">
+      <div class="hero-container">
+        <!-- Playful Hero Playground Scene -->
+        <div class="playground-stage" id="heroPlayground">
+          <div class="stage-sky" aria-hidden="true">
+            <span class="pixel-sun">✹</span>
+            <span class="sky-sparkle s-left">✦</span>
+            <span class="sky-sparkle s-right">✦</span>
+          </div>
+
+          <!-- Interactive Speech Bubble -->
+          <div class="speech-bubble" id="speechBubble" role="status" aria-live="polite">
+            <span class="bubble-text" id="bubbleText">oh hi</span>
+            <span class="bubble-tail"></span>
+          </div>
+
+          <!-- Center Interactive Pet -->
+          <button class="interactive-pet-wrapper" id="heroPetBtn" aria-label="Interact with your pixel pet. Click to tickle!">
+            <div class="pet-sprite-box" id="heroPetBox">
+              <img
+                src="./assets/pets/mochi/mint/idle.png"
+                alt="Active pixel companion"
+                class="active-hero-sprite"
+                id="heroSprite"
+              />
+            </div>
+            <!-- Ground Platform -->
+            <div class="pixel-platform">
+              <div class="platform-grass"></div>
+              <div class="platform-dirt"></div>
+            </div>
+          </button>
+
+          <!-- Stage Badges & Easter Eggs -->
+          <div class="stage-decor decor-left" aria-hidden="true">
+            <span class="pixel-tag mint-tag">● vibing quietly</span>
+          </div>
+          <div class="stage-decor decor-right" aria-hidden="true">
+            <span class="pixel-tag gold-tag">click me! ↗</span>
+          </div>
+        </div>
+
+        <!-- Hero Content -->
+        <div class="hero-copy">
+          <div class="pill-badge">
+            <span class="badge-icon">🎮</span> Windows 10 & 11 Desktop Companion
+          </div>
+          <h1 class="hero-heading">your desktop looks lonely.</h1>
+          <p class="hero-desc">
+            adopt a tiny pixel friend. let it chill on your screen while you do your thing.
+          </p>
+
+          <div class="hero-actions">
+            <a href="#download" class="btn-gold hero-cta">
+              GET YOUR PET ↗
+            </a>
+            <a href="https://github.com/KIRANRAJ017/pixelpet" target="_blank" rel="noopener noreferrer" class="link-secondary">
+              peek at the source code <span aria-hidden="true">→</span>
+            </a>
+          </div>
+
+          <div class="hero-meta">
+            <span>Windows 10 & 11</span>
+            <span class="dot-sep">•</span>
+            <span>tiny ~75MB download</span>
+            <span class="dot-sep">•</span>
+            <span>no account needed</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION C: The Tiny Adoption Moment -->
+    <section class="adopt-section" id="adopt">
+      <div class="section-header">
+        <span class="eyebrow-tag">ROOMMATE SELECTION</span>
+        <h2 class="section-title">pick your tiny roommate</h2>
+        <p class="section-subtitle">Click a creature to adopt them into the preview playground above!</p>
+      </div>
+
+      <div class="adopt-grid" role="radiogroup" aria-label="Choose your pixel pet">
+        <!-- 1. Mochi -->
+        <button
+          class="adopt-card active"
+          data-character="mochi"
+          data-palette="mint"
+          data-quote="professional napper"
+          data-bubble="z Z... oh, snacks?"
+          role="radio"
+          aria-checked="true"
+        >
+          <div class="card-badge">this one!</div>
+          <div class="card-art">
+            <img src="./assets/pets/mochi/mint/happy.png" alt="Mochi the green blob" class="card-sprite" />
+          </div>
+          <div class="card-info">
+            <h3 class="char-name">Mochi</h3>
+            <span class="char-tagline">professional napper</span>
+            <p class="char-bio">Round mint-green blob with tiny feet and a sprout. Friendly, curious, and sleeps anywhere.</p>
+          </div>
+          <div class="char-footer">
+            <span class="palette-indicator mint">Mint Green</span>
+          </div>
+        </button>
+
+        <!-- 2. Neko -->
+        <button
+          class="adopt-card"
+          data-character="neko"
+          data-palette="peach"
+          data-quote="will judge your tabs"
+          data-bubble="close that tab human :3"
+          role="radio"
+          aria-checked="false"
+        >
+          <div class="card-badge">this one!</div>
+          <div class="card-art">
+            <img src="./assets/pets/neko/peach/happy.png" alt="Neko the cat" class="card-sprite" />
+          </div>
+          <div class="card-info">
+            <h3 class="char-name">Neko</h3>
+            <span class="char-tagline">will judge your tabs</span>
+            <p class="char-bio">Cream cat with twitchy triangular ears and little front paws. Playful, observant, and very sleepy.</p>
+          </div>
+          <div class="char-footer">
+            <span class="palette-indicator peach">Warm Peach</span>
+          </div>
+        </button>
+
+        <!-- 3. Boo -->
+        <button
+          class="adopt-card"
+          data-character="boo"
+          data-palette="lavender"
+          data-quote="haunts your desktop. politely."
+          data-bubble="boo! (but friendly) ✨"
+          role="radio"
+          aria-checked="false"
+        >
+          <div class="card-badge">this one!</div>
+          <div class="card-art">
+            <img src="./assets/pets/boo/lavender/happy.png" alt="Boo the ghost" class="card-sprite" />
+          </div>
+          <div class="card-info">
+            <h3 class="char-name">Boo</h3>
+            <span class="char-tagline">haunts your desktop. politely.</span>
+            <p class="char-bio">Floating lavender ghost with ruffled skirt waves and gentle sparkles. Slightly mischievous, never spooky.</p>
+          </div>
+          <div class="char-footer">
+            <span class="palette-indicator lavender">Soft Lilac</span>
+          </div>
+        </button>
+      </div>
+    </section>
+
+    <!-- SECTION D: What Can This Little Thing Do? -->
+    <section class="features-section" id="features">
+      <div class="section-header">
+        <span class="eyebrow-tag">PET FEATURES</span>
+        <h2 class="section-title">small creature. important business.</h2>
+        <p class="section-subtitle">No microtransactions. No notifications interrupting your zoom call. Just pure companion vibes.</p>
+      </div>
+
+      <div class="scenes-showcase">
+        <!-- Scene 01 -->
+        <div class="feature-scene scene-1">
+          <div class="scene-visual">
+            <div class="mock-taskbar">
+              <div class="mock-start">🪟</div>
+              <div class="mock-apps">
+                <span class="app-icon code">⌨</span>
+                <span class="app-icon music">♫</span>
+                <span class="app-icon browser">◈</span>
+              </div>
+              <div class="taskbar-pet">
+                <img src="./assets/pets/mochi/mint/walk.png" alt="Mochi walking" class="scene-sprite" />
+              </div>
+              <div class="mock-clock">12:00 PM</div>
+            </div>
+          </div>
+          <div class="scene-body">
+            <span class="step-num">01</span>
+            <h3 class="scene-title">it lives on your desktop</h3>
+            <p class="scene-desc">A tiny friend hanging around while you work, code, study, or procrastinate. Transparent and frameless.</p>
+          </div>
+        </div>
+
+        <!-- Scene 02 -->
+        <div class="feature-scene scene-2">
+          <div class="scene-visual">
+            <div class="snack-interaction">
+              <div class="snack-drop-item">🍎</div>
+              <img src="./assets/pets/neko/peach/eat.png" alt="Neko eating snack" class="scene-sprite" />
+              <div class="heart-poof">♥</div>
+            </div>
+          </div>
+          <div class="scene-body">
+            <span class="step-num">02</span>
+            <h3 class="scene-title">give it a little attention</h3>
+            <p class="scene-desc">Click it, feed it apples, drag it to a new corner, or right-click for interactions. Watch its 11 handcrafted reactions.</p>
+          </div>
+        </div>
+
+        <!-- Scene 03 -->
+        <div class="feature-scene scene-3">
+          <div class="scene-visual">
+            <div class="wardrobe-box">
+              <div class="wardrobe-hats">
+                <span class="hat-item">🧶 Beanie</span>
+                <span class="hat-item">🎉 Party Hat</span>
+              </div>
+              <img src="./assets/pets/boo/lavender/idle.png" alt="Boo with hat" class="scene-sprite" />
+              <div class="swatches-row">
+                <span class="swatch mint"></span>
+                <span class="swatch lavender"></span>
+                <span class="swatch peach"></span>
+              </div>
+            </div>
+          </div>
+          <div class="scene-body">
+            <span class="step-num">03</span>
+            <h3 class="scene-title">make it yours</h3>
+            <p class="scene-desc">Pick your character, choose from 3 palettes (Mint, Lavender, Peach), 3 sizes (64px, 96px, 128px), and cozy hats.</p>
+          </div>
+        </div>
+
+        <!-- Scene 04 -->
+        <div class="feature-scene scene-4">
+          <div class="scene-visual">
+            <div class="sleep-scene">
+              <div class="sleep-zzz">
+                <span class="z z-1">z</span>
+                <span class="z z-2">Z</span>
+                <span class="z z-3">Z</span>
+              </div>
+              <img src="./assets/pets/mochi/mint/sleep.png" alt="Mochi sleeping" class="scene-sprite" />
+            </div>
+          </div>
+          <div class="scene-body">
+            <span class="step-num">04</span>
+            <h3 class="scene-title">let it do its thing</h3>
+            <p class="scene-desc">Watch it wander quietly across your screen when automatic movement is enabled, and take gentle naps when left alone.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION E: A Tiny Desktop Demonstration -->
+    <section class="demo-section">
+      <div class="section-header">
+        <span class="eyebrow-tag">NATIVE EXPERIENCE</span>
+        <h2 class="section-title">it just... lives there.</h2>
+        <p class="section-subtitle">Doing absolutely nothing. Beautifully.</p>
+      </div>
+
+      <div class="desktop-frame">
+        <div class="desktop-screen">
+          <!-- Background Retro Wallpaper Pattern -->
+          <div class="screen-wallpaper"></div>
+
+          <!-- Mock IDE Window -->
+          <div class="mock-window">
+            <div class="window-bar">
+              <div class="window-dots">
+                <span class="dot red"></span>
+                <span class="dot yellow"></span>
+                <span class="dot green"></span>
+              </div>
+              <span class="window-title">main.rs — my-cool-project</span>
+            </div>
+            <div class="window-code">
+              <code><span class="kwd">fn</span> <span class="fn">main</span>() {</code>
+              <code>&nbsp;&nbsp;<span class="kwd">let</span> pet = <span class="str">"Mochi"</span>;</code>
+              <code>&nbsp;&nbsp;<span class="fn">println!</span>(<span class="str">"Pet status: vibing"</span>);</code>
+              <code>}</code>
+            </div>
+          </div>
+
+          <!-- Resting Desktop Pet in Bottom-Right -->
+          <div class="corner-pet-demo">
+            <div class="demo-bubble">z Z...</div>
+            <img src="./assets/pets/mochi/mint/sleep.png" alt="Desktop pet sleeping" class="demo-pet-sprite" />
+          </div>
+
+          <!-- Bottom Mock Windows Taskbar -->
+          <div class="screen-taskbar">
+            <div class="taskbar-left">
+              <span class="taskbar-win-icon">🪟</span>
+              <span class="taskbar-tab">
+                <img src="./assets/tray-icon.png" alt="" class="taskbar-icon-img" />
+                <span>Pixel Pet</span>
+              </span>
+            </div>
+            <div class="taskbar-right">
+              <span class="tray-icon">
+                <img src="./assets/tray-icon.png" alt="" class="taskbar-icon-img" />
+              </span>
+              <span>12:42 PM</span>
+            </div>
+          </div>
+        </div>
+        <div class="demo-caption">
+          Illustrative desktop demonstration • Frameless, transparent & never steals keyboard focus
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION F: The Installation Process -->
+    <section class="install-section" id="download">
+      <div class="section-header">
+        <span class="eyebrow-tag">GETTING STARTED</span>
+        <h2 class="section-title">three steps. one tiny friend.</h2>
+        <p class="section-subtitle">No terminal commands. No account logins. Just download and run.</p>
+      </div>
+
+      <div class="steps-grid">
+        <div class="step-card">
+          <div class="step-icon-box">💾</div>
+          <div class="step-number">STEP 1</div>
+          <h3 class="step-heading">download</h3>
+          <p class="step-text">Get the Windows installer package (~75MB, contains all pixel sprites and runtime).</p>
+        </div>
+
+        <div class="step-card">
+          <div class="step-icon-box">⚡</div>
+          <div class="step-number">STEP 2</div>
+          <h3 class="step-heading">open it</h3>
+          <p class="step-text">Run the installer. It installs per-user with zero admin elevation required.</p>
+        </div>
+
+        <div class="step-card">
+          <div class="step-icon-box">👋</div>
+          <div class="step-number">STEP 3</div>
+          <h3 class="step-heading">say hi</h3>
+          <p class="step-text">Your pixel companion appears in your bottom-right corner, ready to chill.</p>
+        </div>
+      </div>
+
+      <div class="download-box">
+        <!-- Direct download links to built release or GitHub releases -->
+        <a
+          href="https://github.com/KIRANRAJ017/pixelpet/releases/download/v1.0.0/Pixel.Pet.Setup.1.0.0.exe"
+          class="btn-gold download-btn-large"
+          download="Pixel Pet Setup 1.0.0.exe"
+          id="directDownloadBtn"
+        >
+          <span class="dl-icon">🪟</span>
+          <div class="dl-text">
+            <strong>DOWNLOAD PIXEL PET FOR WINDOWS ↗</strong>
+            <small>v1.0.0 Setup (64-bit) • Windows 10 & 11 (~75MB)</small>
+          </div>
+        </a>
+
+        <div class="download-notes">
+          <p>
+            ℹ️ <strong>Windows Security Note:</strong> As an open-source hobby project, Pixel Pet is not signed with an expensive corporate certificate. If Windows SmartScreen shows <em>"Windows protected your PC"</em>, click <strong>More info → Run anyway</strong>.
+          </p>
+          <p class="github-backup">
+            Prefer GitHub Releases? <a href="https://github.com/KIRANRAJ017/pixelpet/releases" target="_blank" rel="noopener noreferrer">View all release assets on GitHub ↗</a>
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION G: Open Source, Made with Love -->
+    <section class="open-source-section" id="open-source">
+      <div class="open-source-card">
+        <div class="os-left">
+          <span class="eyebrow-tag">FREE & OPEN SOURCE</span>
+          <h2 class="section-title">made with pixels. open to ideas.</h2>
+          <p class="os-desc">
+            want to see how this little creature works? the code is out in the open. find a bug, suggest something silly, or help make it better.
+          </p>
+          <div class="os-links">
+            <a href="https://github.com/KIRANRAJ017/pixelpet" target="_blank" rel="noopener noreferrer" class="btn-secondary">
+              peek at the code ↗
+            </a>
+            <a href="https://github.com/KIRANRAJ017/pixelpet/issues" target="_blank" rel="noopener noreferrer" class="btn-secondary">
+              report a bug ↗
+            </a>
+            <a href="https://github.com/KIRANRAJ017/pixelpet/pulls" target="_blank" rel="noopener noreferrer" class="btn-secondary">
+              help build it ↗
+            </a>
+          </div>
+        </div>
+
+        <div class="os-illustration" aria-hidden="true">
+          <div class="mini-terminal">
+            <div class="term-head">terminal</div>
+            <div class="term-body">
+              <code>$ npm run dev</code>
+              <code class="green-txt">✓ pixel pet ready!</code>
+              <code>$ pet --status</code>
+              <code class="gold-txt">&gt; happy &amp; curious</code>
+            </div>
+          </div>
+          <img src="./assets/pets/boo/lavender/happy.png" alt="" class="os-pet-sprite" />
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION H: The Final Invitation -->
+    <section class="final-invite-section">
+      <div class="invite-content">
+        <div class="closing-pet" aria-hidden="true">
+          <img src="./assets/pets/mochi/mint/happy.png" alt="" class="closing-sprite" />
+        </div>
+        <h2 class="invite-heading">okay. that's enough internet for today.</h2>
+        <p class="invite-sub">take a tiny friend with you.</p>
+
+        <a href="#download" class="btn-gold invite-cta">
+          ADOPT A PIXEL PET ↗
+        </a>
+
+        <span class="invite-foot">free to try. tiny by design. made for your desktop.</span>
+      </div>
+    </section>
+  </main>
+
+  <!-- SECTION I: Tiny Footer -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-creds">
+        <span>made with care (and probably too much coffee) by <strong>Kiran Raj</strong>.</span>
+      </div>
+
+      <div class="footer-links">
+        <a href="https://github.com/KIRANRAJ017" target="_blank" rel="noopener noreferrer">GitHub</a>
+        <a href="https://github.com/KIRANRAJ017/pixelpet" target="_blank" rel="noopener noreferrer">Repository</a>
+        <a href="https://github.com/KIRANRAJ017/pixelpet/releases" target="_blank" rel="noopener noreferrer">Releases</a>
+        <span class="version-tag">v1.0.0</span>
+      </div>
+    </div>
+  </footer>
+
+  <script type="module" src="./script.js"></script>
+</body>
+</html>

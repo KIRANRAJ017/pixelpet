@@ -1,0 +1,122 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-user-drag: none;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: transparent !important;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+.pet-window-root {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.pet-interactive-area {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: transform 0.05s ease-out;
+}
+
+.pet-interactive-area:active {
+  transform: scale(0.97);
+}
+
+.sprite-container img {
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+/* Context Menu */
+.pixel-context-menu {
+  background: #18191e;
+  border: 1px solid #2e3138;
+  border-radius: 8px;
+  padding: 6px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 136px;
+  backdrop-filter: blur(8px);
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+  border: none;
+  color: #e4e4e7;
+  padding: 6px 10px;
+  border-radius: 5px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.menu-item:hover {
+  background: #272a31;
+  color: #ffffff;
+}
+
+.menu-item.quit:hover {
+  background: #7f1d1d;
+  color: #fca5a5;
+}
+
+.menu-icon {
+  font-size: 13px;
+  line-height: 1;
+}
+
+.menu-separator {
+  height: 1px;
+  background: #272a30;
+  margin: 3px 0;
+}
+
+/* Food snack drop animation */
+.food-snack-drop {
+  animation: snackFall 0.65s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+@keyframes snackFall {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -20px) scale(0.6);
+  }
+  30% {
+    opacity: 1;
+    transform: translate(-50%, 4px) scale(1.1);
+  }
+  60% {
+    transform: translate(-50%, 16px) scale(0.95);
+  }
+  85% {
+    opacity: 1;
+    transform: translate(-50%, 26px) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, 30px) scale(0.2);
+  }
+}

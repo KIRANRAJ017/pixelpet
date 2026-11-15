@@ -1,0 +1,28 @@
+appId: com.pixelpet.app
+productName: Pixel Pet
+copyright: Copyright © 2026 Pixel Pet Team
+directories:
+  output: release
+  buildResources: assets
+
+files:
+  - dist/**/*
+  - dist-electron/**/*
+  - assets/**/*
+  - package.json
+
+win:
+  target:
+    - target: nsis
+      arch:
+        - x64
+  icon: assets/app-icon.ico
+
+nsis:
+  oneClick: false
+  allowToChangeInstallationDirectory: true
+  perMachine: false
+  createDesktopShortcut: true
+  createStartMenuShortcut: true
+  shortcutName: Pixel Pet
+  uninstallDisplayName: Pixel Pet
