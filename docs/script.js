@@ -179,16 +179,10 @@
     });
   });
 
-  // Configure Download Button link based on environment
+  // Configure Download Button link
   const directDownloadBtn = document.getElementById('directDownloadBtn');
   if (directDownloadBtn) {
-    if (window.location.protocol === 'file:' || window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
-      // Local dev testing
-      directDownloadBtn.setAttribute('href', '../release/Pixel Pet Setup 1.0.0.exe');
-    } else {
-      // Production hosted on GitHub Pages
-      directDownloadBtn.setAttribute('href', 'https://github.com/KIRANRAJ017/pixelpet/releases/download/v1.0.0/Pixel.Pet.Setup.1.0.0.exe');
-    }
+    directDownloadBtn.setAttribute('href', './downloads/Pixel-Pet-Setup-1.0.0.exe');
     directDownloadBtn.addEventListener('click', () => {
       console.log('Initiating Pixel Pet installer download...');
     });
