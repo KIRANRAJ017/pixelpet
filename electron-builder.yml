@@ -11,6 +11,10 @@ files:
   - assets/**/*
   - package.json
 
+extraResources:
+  - from: assets
+    to: assets
+
 win:
   target:
     - target: nsis

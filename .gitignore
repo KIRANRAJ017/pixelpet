@@ -6,3 +6,5 @@ release/
 .idea/
 *.log
 .DS_Store
+video-editor/captures/
+video-editor/output/

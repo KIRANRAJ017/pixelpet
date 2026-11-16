@@ -38,8 +38,9 @@ if (!gotTheLock) {
 
     registerIpcHandlers(persistence, windowManager, () => trayManager);
 
-    // Create the pet desktop window
+    // Create the pet desktop window and show studio window
     windowManager.createPetWindow();
+    windowManager.createOrShowStudioWindow();
 
     // Prevent closing pet from closing the app
     app.on('window-all-closed', () => {

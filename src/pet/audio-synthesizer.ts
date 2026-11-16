@@ -131,6 +131,57 @@ class SoundSynthesizer {
     osc.start(now);
     osc.stop(now + 0.12);
   }
+
+  public playDizzy(): void {
+    const ctx = this.getContext();
+    if (!ctx) return;
+
+    const now = ctx.currentTime;
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+
+    osc.type = 'triangle';
+    osc.frequency.setValueAtTime(520, now);
+    osc.frequency.linearRampToValueAtTime(680, now + 0.1);
+    osc.frequency.linearRampToValueAtTime(420, now + 0.25);
+    osc.frequency.linearRampToValueAtTime(590, now + 0.4);
+    osc.frequency.linearRampToValueAtTime(350, now + 0.55);
+
+    gain.gain.setValueAtTime(0.1, now);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.6);
+
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+
+    osc.start(now);
+    osc.stop(now + 0.6);
+  }
+
+  public playAngry(): void {
+    const ctx = this.getContext();
+    if (!ctx) return;
+
+    const now = ctx.currentTime;
+    // Two rapid annoyed square wave pulses
+    for (let i = 0; i < 2; i++) {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      const t = now + i * 0.1;
+
+      osc.type = 'square';
+      osc.frequency.setValueAtTime(280 - i * 40, t);
+      osc.frequency.exponentialRampToValueAtTime(140, t + 0.07);
+
+      gain.gain.setValueAtTime(0.09, t);
+      gain.gain.exponentialRampToValueAtTime(0.001, t + 0.08);
+
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+
+      osc.start(t);
+      osc.stop(t + 0.08);
+    }
+  }
 }
 
 export const soundSynth = new SoundSynthesizer();

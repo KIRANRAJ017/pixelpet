@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef, useCallback } from 'react';
-import { PetSettings, DEFAULT_SETTINGS } from '../types/settings';
+import { PetSettings, DEFAULT_SETTINGS, SIZE_DIMENSIONS } from '../types/settings';
 import { PetState } from '../types/pet';
 import { PetStateMachine } from '../pet/state-machine';
 import { WanderController } from '../pet/wanderer';
@@ -7,6 +7,8 @@ import { SpriteRenderer } from '../pet/sprite-renderer';
 import { ContextMenu } from '../components/ContextMenu';
 import { FoodSnack } from '../components/FoodSnack';
 import { soundSynth } from '../pet/audio-synthesizer';
+import { ShakeDetector } from '../pet/shake-detector';
+import { ShakeEffects, ShakeReactionPhase } from '../components/ShakeEffects';
 
 export const PetApp: React.FC = () => {
   const [settings, setSettings] = useState<PetSettings>(DEFAULT_SETTINGS);
@@ -15,10 +17,14 @@ export const PetApp: React.FC = () => {
   const [flipX, setFlipX] = useState<boolean>(false);
   const [menuPos, setMenuPos] = useState<{ x: number; y: number } | null>(null);
   const [feeding, setFeeding] = useState<boolean>(false);
+  const [shakePhase, setShakePhase] = useState<ShakeReactionPhase>('none');
 
   const stateMachineRef = useRef<PetStateMachine | null>(null);
   const wandererRef = useRef<WanderController | null>(null);
   const dragStartRef = useRef<{ screenX: number; screenY: number; isDragging: boolean } | null>(null);
+  const shakeDetectorRef = useRef<ShakeDetector>(new ShakeDetector());
+  const shakeTimersRef = useRef<{ phase1?: NodeJS.Timeout; phase2?: NodeJS.Timeout }>({});
+  const preShakeStateRef = useRef<PetState>('idle');
 
   // Initialize settings and state machine
   useEffect(() => {
@@ -113,6 +119,8 @@ export const PetApp: React.FC = () => {
       unsubscribeTriggers?.();
       sm?.destroy();
       wandererRef.current?.stop();
+      if (shakeTimersRef.current.phase1) clearTimeout(shakeTimersRef.current.phase1);
+      if (shakeTimersRef.current.phase2) clearTimeout(shakeTimersRef.current.phase2);
     };
   }, []);
 
@@ -128,10 +136,55 @@ export const PetApp: React.FC = () => {
     return () => clearInterval(timer);
   }, [settings.animationSpeed]);
 
-  // Mouse interaction: Click vs Drag
+  // Shake reaction sequence: Confused (2s) -> Angry (1s) -> Normal
+  const triggerShakeReaction = useCallback(() => {
+    if (shakeTimersRef.current.phase1) clearTimeout(shakeTimersRef.current.phase1);
+    if (shakeTimersRef.current.phase2) clearTimeout(shakeTimersRef.current.phase2);
+
+    // Save previous normal state
+    const cur = stateMachineRef.current?.getState() || 'idle';
+    if (cur !== 'surprised') {
+      preShakeStateRef.current = cur === 'dragged' ? 'idle' : cur;
+    }
+
+    // Phase 1: Confused (2.0s) - Dizzy stars orbit head & playful wobble
+    setShakePhase('confused');
+    stateMachineRef.current?.transitionTo('surprised', true);
+    if (settings.sound) {
+      soundSynth.playDizzy();
+    }
+
+    // Schedule Phase 2: Angry after 2000ms (2s)
+    shakeTimersRef.current.phase1 = setTimeout(() => {
+      // Phase 2: Angry (1.0s) - Small three red exclamation marks !!!
+      setShakePhase('angry');
+      stateMachineRef.current?.transitionTo('land', true);
+      if (settings.sound) {
+        soundSynth.playAngry();
+      }
+
+      // Schedule Phase 3: Return to Normal after 1000ms (1s)
+      shakeTimersRef.current.phase2 = setTimeout(() => {
+        setShakePhase('none');
+
+        // If the user is still actively dragging, remain in dragged
+        if (dragStartRef.current?.isDragging) {
+          stateMachineRef.current?.transitionTo('dragged', true);
+        } else {
+          // Restore previous normal state
+          const returnState = preShakeStateRef.current === 'sleep' ? 'sleep' : 'idle';
+          stateMachineRef.current?.transitionTo(returnState, true);
+        }
+      }, 1000);
+    }, 2000);
+  }, [settings.sound]);
+
+  // Mouse interaction: Click vs Drag vs Shake
   const handlePointerDown = useCallback((e: React.PointerEvent) => {
     // Only handle left clicks for drag/click
     if (e.button !== 0) return;
+
+    shakeDetectorRef.current.reset();
 
     dragStartRef.current = {
       screenX: e.screenX,
@@ -160,16 +213,30 @@ export const PetApp: React.FC = () => {
       }
       dragStartRef.current.screenX = e.screenX;
       dragStartRef.current.screenY = e.screenY;
+
+      // Detect rapid back-and-forth shaking gesture
+      const isShake = shakeDetectorRef.current.addSample(e.screenX, e.screenY);
+      if (isShake && shakePhase === 'none') {
+        triggerShakeReaction();
+      }
     }
-  }, []);
+  }, [shakePhase, triggerShakeReaction]);
 
   const handlePointerUp = useCallback((e: React.PointerEvent) => {
     if (!dragStartRef.current) return;
+
+    shakeDetectorRef.current.reset();
 
     try {
       (e.target as HTMLElement).releasePointerCapture(e.pointerId);
     } catch {
       // ignore
+    }
+
+    // If shake reaction is currently active, don't interrupt it with a sudden land/click
+    if (shakePhase !== 'none') {
+      dragStartRef.current = null;
+      return;
     }
 
     if (dragStartRef.current.isDragging) {
@@ -183,7 +250,7 @@ export const PetApp: React.FC = () => {
     }
 
     dragStartRef.current = null;
-  }, [settings.sound]);
+  }, [settings.sound, shakePhase]);
 
   // Context Menu
   const handleContextMenu = (e: React.MouseEvent) => {
@@ -249,13 +316,20 @@ export const PetApp: React.FC = () => {
 
       {/* Main interactive pet character */}
       <div
-        className="pet-interactive-area"
+        className={`pet-interactive-area ${
+          shakePhase === 'confused'
+            ? 'pet-confused-wobble'
+            : shakePhase === 'angry'
+            ? 'pet-angry-twitch'
+            : ''
+        }`}
         onPointerDown={handlePointerDown}
         onPointerMove={handlePointerMove}
         onPointerUp={handlePointerUp}
         style={{
           cursor: state === 'dragged' ? 'grabbing' : 'grab',
-          touchAction: 'none'
+          touchAction: 'none',
+          position: 'relative'
         }}
       >
         <SpriteRenderer
@@ -266,6 +340,12 @@ export const PetApp: React.FC = () => {
           frame={frame}
           size={settings.size}
           flipX={flipX}
+        />
+
+        {/* Shake reaction overlay (orbiting stars / red !!! marks) */}
+        <ShakeEffects
+          phase={shakePhase}
+          scale={SIZE_DIMENSIONS[settings.size]?.spriteScale || 3}
         />
       </div>
 

@@ -1,4 +1,4 @@
-import { Tray, Menu, nativeImage, app } from 'electron';
+import { Tray, Menu, nativeImage, app, NativeImage } from 'electron';
 import * as path from 'path';
 import * as fs from 'fs';
 
@@ -19,21 +19,44 @@ export class TrayManager {
     this.init();
   }
 
-  private getIconPath(): string {
-    const isDev = !app.isPackaged;
-    const baseDir = isDev ? path.join(__dirname, '..', 'assets') : path.join(process.resourcesPath, 'assets');
-    const trayPng = path.join(baseDir, 'tray-icon.png');
-    if (fs.existsSync(trayPng)) {
-      return trayPng;
+  private getTrayImage(): NativeImage {
+    const candidateDirs = [
+      path.join(__dirname, '..', 'assets'),
+      path.join(app.getAppPath(), 'assets'),
+      path.join(process.resourcesPath, 'assets')
+    ];
+
+    const iconNames = ['tray-icon.ico', 'tray-icon.png', 'app-icon.ico', 'app-icon.png'];
+
+    for (const dir of candidateDirs) {
+      for (const name of iconNames) {
+        try {
+          const fullPath = path.join(dir, name);
+          if (fs.existsSync(fullPath)) {
+            const img = nativeImage.createFromPath(fullPath);
+            if (!img.isEmpty()) {
+              return name.endsWith('.ico') ? img : img.resize({ width: 16, height: 16 });
+            }
+          }
+        } catch {
+          // continue checking other candidates
+        }
+      }
     }
-    return path.join(baseDir, 'app-icon.ico');
+
+    // High contrast 16x16 fallback base64 pixel pet icon so tray NEVER appears blank
+    return nativeImage.createFromBuffer(
+      Buffer.from(
+        'iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAZElEQVQ4T2NkoBAwUqifYdQASuP/T5T4PzK/gZGBkRFVnBGrmQy4FDEwMDKgK8ZnFprmf0SYj24CSbEBF8YYGuCWYMRlCUEbcGvEbgDOGsJmAE578BmC13Z8ZuGzA13wU2gAAI9eFhGz3n9vAAAAAElFTkSuQmCC',
+        'base64'
+      )
+    );
   }
 
   private init(): void {
     try {
-      const iconPath = this.getIconPath();
-      const image = nativeImage.createFromPath(iconPath);
-      this.tray = new Tray(image.isEmpty() ? nativeImage.createEmpty() : image);
+      const image = this.getTrayImage();
+      this.tray = new Tray(image);
       this.tray.setToolTip('Pixel Pet - Desktop Companion');
 
       this.updateMenu();

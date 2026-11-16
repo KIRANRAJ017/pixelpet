@@ -1304,18 +1304,20 @@ h1, h2, h3, h4 {
 }
 
 .footer-creds strong {
-  color: var(--color-cream);
+  color: inherit;
+  font-weight: normal;
 }
 
 .footer-creds .brand-name {
   color: var(--color-gold);
-  font-family: var(--font-pixel);
-  font-size: 11px;
-  letter-spacing: 0.5px;
-  padding: 2px 6px;
-  background-color: rgba(242, 198, 109, 0.1);
-  border: 1px solid rgba(242, 198, 109, 0.3);
-  border-radius: 4px;
+  font-weight: normal;
+  font-family: inherit;
+  font-size: inherit;
+  letter-spacing: normal;
+  padding: 0;
+  background: none;
+  border: none;
+  border-radius: 0;
 }
 
 .footer-links {
