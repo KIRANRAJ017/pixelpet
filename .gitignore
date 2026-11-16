@@ -8,3 +8,7 @@ release/
 .DS_Store
 video-editor/captures/
 video-editor/output/
+reel_project/
+*.mp4
+*.jpg
+/*.py

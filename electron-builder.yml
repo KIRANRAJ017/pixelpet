@@ -7,6 +7,8 @@ directories:
 
 files:
   - dist/**/*
+  - "!dist/downloads/**/*"
+  - "!dist/download-page/**/*"
   - dist-electron/**/*
   - assets/**/*
   - package.json
